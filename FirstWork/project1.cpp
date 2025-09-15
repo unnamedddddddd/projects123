@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <limits>
 
+
 using namespace std;
 
 float TwoDivision(float first, float second) {
@@ -18,6 +19,8 @@ float TwoDivision(float first, float second) {
 }
 
 int main() {
+    setlocale(LC_ALL,"");
+    
     try {
         int choice = 1;
         do {

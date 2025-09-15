@@ -24,9 +24,9 @@ void File(int res_arr[]) {
 
 void TwoArrays(int arr1[], int arr2[]) {
 	auto start = chrono::high_resolution_clock::now();
-	int* res_arr{ new int[250000000] {} };
+	int* res_arr{ new int[100] {} };
 
-	for (int i = 0; i < 250000000; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
 		res_arr[i] = arr1[i] + arr2[i];
 	}
@@ -37,6 +37,7 @@ void TwoArrays(int arr1[], int arr2[]) {
 }
 
 int main() {
+
 	int num_threads;
 	cout << "Введите число потоков(от 1 - 4)";
 	while (!(cin >> num_threads) || (num_threads < 1 || num_threads > 4)) {
@@ -44,11 +45,13 @@ int main() {
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cerr << "Ошибка: Неверный формат. Введите число: ";
 	}
+		
+	int* arr1 = nullptr;
+	int* arr2 = nullptr;
+	arr1 = new int[100]();	
+	arr2 = new int[100]();
 
-	int* arr1{ new int [250000000] {} };
-	int* arr2{ new int[250000000] {} };
-
-	for (int i = 0; i < 250000000; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
 		arr1[i] += i;
 		arr2[i] += i;
@@ -69,7 +72,8 @@ int main() {
 	for (auto& thread : threads) {
 		thread.join();
 	}
-
+	delete[] arr1;
+	delete[] arr2;
 	// th1.join();
 	// th2.join();
 	// th3.join();
