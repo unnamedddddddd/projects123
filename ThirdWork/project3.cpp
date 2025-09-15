@@ -1,4 +1,4 @@
-#include <thread>
+﻿#include <thread>
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -39,12 +39,12 @@ void TwoArrays(int arr1[], int arr2[]) {
 int main() {
 	int num_threads;
 	cout << "Введите число потоков(от 1 - 4)";
-	while (!(cin >> num_threads) || (num_threads < 1 || num_threads > 4)){
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cerr << "Ошибка: Неверный формат. Введите число: ";
-    }
-	
+	while (!(cin >> num_threads) || (num_threads < 1 || num_threads > 4)) {
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cerr << "Ошибка: Неверный формат. Введите число: ";
+	}
+
 	int* arr1{ new int [250000000] {} };
 	int* arr2{ new int[250000000] {} };
 
@@ -58,7 +58,7 @@ int main() {
 
 	for (int i = 0; i < num_threads; ++i)
 	{
-		threads.emplace_back(TwoArrays,arr1,arr2);
+		threads.emplace_back(TwoArrays, arr1, arr2);
 	}
 
 	// thread th1(TwoArrays, arr1, arr2);
@@ -66,8 +66,8 @@ int main() {
 	// thread th3(TwoArrays, arr1, arr2);
 	// thread th4(TwoArrays, arr1, arr2);
 
-	for (auto& thread : threads) {         
-		thread.join();                        
+	for (auto& thread : threads) {
+		thread.join();
 	}
 
 	// th1.join();
