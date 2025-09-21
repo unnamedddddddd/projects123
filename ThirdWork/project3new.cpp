@@ -3,26 +3,30 @@
 #include <fstream>
 #include <chrono>
 #include <vector>
+#include <limits>
 
 using namespace std;
 
-vector<vector<int>> splitArray(const vector<int>& arr, size_t n) {
-    vector<vector<int>> result;
-    
-    if (n > arr.size()) n = arr.size();
-   
-    float base_size = arr.size() / n;
-    float remainder = arr.size() % n;
-    size_t start_index = 0;
-    
-    for (int i = 0; i < n; ++i) {
-        size_t current_size = base_size + (i < remainder ? 1 : 0);
-        vector<int> part(arr.begin() + start_index, arr.begin() + start_index + current_size);
-        result.push_back(part);
-        start_index += current_size;
-    }
-    
-    return result;
+vector<vector<int>> SplitArray(vector<int> &arr1, size_t &n){
+	if (n == 0) throw invalid_argument("n cannot be zero");
+	vector<vector<int>> res_arr(n);
+
+	size_t totalSize = arr1.size();
+	size_t chuntSize = totalSize / n;
+	size_t remainder = totalSize % n;
+
+	size_t index = 0;
+
+	for (size_t i = 0; i < n; ++i)
+	{
+		size_t currentSize = chuntSize + (i < remainder ? 1 : 0);
+		for (size_t j = 0; j < currentSize; ++j)
+		{
+			res_arr[i].push_back(arr1[index++]);
+		}
+	}
+
+	return res_arr;
 }
 
 void File(int res_arr[]) {
@@ -68,39 +72,81 @@ void TwoArrays(vector<int> arr1, vector<int> arr2) {
 }
 
 int main() {
-	int num_threads;
-	size_t size_array;
-	cout << "Введите размер массива: ";
-	while (!(cin >> size_array)) {
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cerr << "Ошибка: Неверный формат. Введите число: ";
-	}
-
-	cout << "Введите число потоков(от 1 - 4): ";
-	while (!(cin >> num_threads) || (num_threads < 1 || num_threads > 4)) {
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		cerr << "Ошибка: Неверный формат. Введите число: ";
-	}
-
-	vector<int> arr(size_array);
-	for (int i = 0; i < 100; ++i)
+	try
 	{
-		arr[i] = i + 1;
+		size_t sizeMainArray,sizeArrays;
+		cout << "Введите размер массива: ";
+		while (!(cin >> sizeMainArray)) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cerr << "Ошибка: Неверный формат. Введите число: ";
+		}
+
+		cout << "Введите кол-во массивов: ";
+		while (!(cin >> sizeArrays)) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cerr << "Ошибка: Неверный формат. Введите число: ";
+		}
+
+		vector<int> main_arr(sizeMainArray);
+
+		auto splitArrays = SplitArray(main_arr,sizeArrays);
+ 		cout << "\nРезультат разделения:" << endl;
+        for (size_t i = 0; i < splitArrays.size(); ++i) {
+            cout << "Часть " << i + 1 << " (размер: " << splitArrays[i].size() << "): ";
+            for (int num : splitArrays[i]) {
+                cout << num << " ";
+            }
+            cout << endl;
+        }
+		
 	}
-
-	auto parts = splitArray(arr, size_array);
-	vector<thread> threads;
-	threads.reserve(num_threads);
-
-	for (int i = 0; i < num_threads; ++i)
+	catch(const std::exception& e)
 	{
-		threads.emplace_back(TwoArrays, arr, arr);
+		std::cerr << e.what() << '\n';
 	}
+	
+	
 
-	for (auto& thread : threads) {
-		thread.join();
-	}
+	
+
+	
+
+
+
+
+
+
+
+	
+	// int num_threads;
+	
+	// cout << "Введите число потоков(от 1 - 4): ";
+	// while (!(cin >> num_threads) || (num_threads < 1 || num_threads > 4)) {
+	// 	cin.clear();
+	// 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	// 	cerr << "Ошибка: Неверный формат. Введите число: ";
+	// }
+
+	// vector<int> arr(size_array);
+	// for (int i = 0; i < 100; ++i)
+	// {
+	// 	arr[i] = i + 1;
+	// }
+
+	// auto parts = splitArray(arr, size_array);
+	// vector<thread> threads;
+	// threads.reserve(num_threads);
+
+	// for (int i = 0; i < num_threads; ++i)
+	// {
+	// 	threads.emplace_back(TwoArrays, arr, arr);
+	// }
+
+	// for (auto& thread : threads) {
+	// 	thread.join();
+	//}
+	return 0;
 	
 }
