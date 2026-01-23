@@ -87,6 +87,7 @@ int main() {
 	do {
 		Menu();
 		cout << "Введите операцию: "; cin >> choice;
+		cin.ignore();
 		switch (choice) {
 
 		case 1: {
@@ -194,8 +195,8 @@ int main() {
 		case 5:
 		{
 			string a, b;
-			cout << "Введи первую строку:"; cin >> a;
-			cout << "Введи вторую строку:"; cin >> b;
+			cout << "Введи первую строку:"; getline(cin, a);
+			cout << "Введи вторую строку:"; getline(cin, b);
 			
 
 			res = oper.Concat(a, b);

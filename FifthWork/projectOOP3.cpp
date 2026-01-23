@@ -2,6 +2,8 @@
 #include <fstream>
 #include <locale>
 #include <Windows.h>
+#include <string>
+#include <limits>
 #include "json.hpp"
 
 using namespace std;
@@ -9,8 +11,6 @@ using json = nlohmann::json;
 
 class Product
 {
-protected:
-	int m_Id = 0;
 public:	
 	virtual void InputFile() = 0;
 };
@@ -33,7 +33,7 @@ class Agency : public Product
 	}
 
 	void InputFile() override {
-		ofstream input("data.json");
+		ofstream input("data2.json");
 		if (input.is_open())
 		{
 			input << m_j.dump(4);
@@ -46,7 +46,7 @@ class Agency : public Product
 	
 	void OutputFile() {
 
-		ifstream out("data.json");
+		ifstream out("data2.json");
 		if (out.is_open())
 		{
 			m_j = json::parse(out);
@@ -65,7 +65,7 @@ class Agency : public Product
 					cout << u8"Конец поездки: " << m_j["end"].get<string>() << endl;
 				}
 				if (m_j.contains("budget") && m_j["budget"].is_number_float()) {
-					cout << u8"Бюджет: " << m_j["budget"].get<float>() << endl << endl;
+					cout << u8"Бюджет: " << m_j["budget"].get<float>() << endl;
 				}
 			}
 			out.close();
@@ -86,36 +86,54 @@ int main()
 
 		int choice = 1;
 		do {
-			
 			string name, place, start, end;
 			float budget = 0.0;
-			cout << u8"Введите ФИО: ";  getline(cin, name);
-			cout << u8"Место поездки: "; getline(cin, place);
-			cout << u8"Начало поездки: ";  getline(cin, start);
-			cout << u8"Конец поездки: ";  getline(cin, end);
-			cout << u8"Бюджет: "; cin >> budget;
-			cout << endl;
-			if (cin.fail()) {
-				cout << "Ошибка: не тот тип" << endl;
-				cin.clear();
-				continue;
+			cout << u8"Введите ФИО: ";
+			getline(cin, name);
+
+			cout << u8"Место поездки: ";
+			getline(cin, place);
+
+			cout << u8"Начало поездки: ";
+			getline(cin, start);
+			stof(start);
+
+			cout << u8"Конец поездки: ";
+			getline(cin, end);
+			stof(end);
+
+			cout << u8"Бюджет: ";
+			string budgetStr;
+			getline(cin, budgetStr);
+			try {
+				budget = stof(budgetStr);
+			}
+			catch (...) {
+				throw runtime_error(u8"Бюджет должен быть числом!");
 			}
 
 			Agency agent(name, place, start, end, budget);
 			agent.InputFile();
 			agent.OutputFile();
 
-			cout << u8"Продолжить?(1 - да, 0 - нет)" << endl;
-			cin >> choice;
-			cin.clear();
-			cin.ignore(32767, '\n');
+			cout << u8"Продолжить? (1 - да, 0 - нет): ";
+			string choiceStr;
+			getline(cin, choiceStr);
+			try {
+				choice = stoi(choiceStr);
+			}
+			catch (...) {
+				throw runtime_error(u8"Ошибка: введите 0 или 1!");
+			}
 
 		} while (choice != 0);
 		return 0;
 	}
+	catch (const std::invalid_argument& e) {
+		cout << u8"Неверный формат числа";
+	}
 	catch(exception &ex){
-		cerr << ex.what() << endl;
-	
+		cerr << u8"Ошибка: " << ex.what() << endl;
 	}
 	
 }

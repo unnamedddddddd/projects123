@@ -11,10 +11,12 @@ class Figure {
 protected:
     int m_Wigth = 0;
     int m_Heigth = 0;
+    int m_Square = 0;
 public:
     Figure() = default;
 
     virtual int getArea() = 0;
+    virtual string getName() = 0;
 
     void setWidth(int w) { 
         m_Wigth = w;
@@ -38,8 +40,13 @@ public:
         setHeight(heigth);
     }
 
+    string getName() {
+        return "треугольник";
+    }
+
     int getArea() {
-        return (m_Wigth * m_Heigth);
+        m_Square = m_Wigth * m_Heigth;
+        return m_Square;
     }  
 
     ~Triangle() override {
@@ -53,6 +60,10 @@ public:
     Parallelogram(int wigth, int heigth) {
         setWidth(wigth);
         setHeight(heigth);
+    }
+
+    string getName() {
+        return "параллелограмм";
     }
 
     int getArea() {
@@ -70,8 +81,7 @@ unique_ptr<Figure> Factory(string& figure, const int &wigth, const int &heigth) 
     if (figure == "треугольник")
     {
         cout << "Создался объект треугольник" << endl;
-        return make_unique<Triangle>(wigth, heigth);
-        
+        return make_unique<Triangle>(wigth, heigth);        
     }
     else if(figure == "параллелограмм")
     {
@@ -110,12 +120,30 @@ int main()
             figures.push_back(move(Factory(figure, wigth, heigth)));
             cout << endl;
 
+            for (const unique_ptr<Figure>& item : figures) {
+                if (item != nullptr)
+                {
+                    continue;
+                }
+                else
+                {
+                    throw invalid_argument("Что то не так с введенными данными");
+                }
+            }
+
             cout << "Добавить еще? (1 - да, 0 - нет): ";
             cin >> choice;
             cout << endl;
 
         } while (choice == 1);
 
+        cout << "Вычисление площади" << endl;
+
+        for (const unique_ptr<Figure>& item : figures) {
+            cout << "Площадь фигуры " << item->getName() << ": " << item->getArea() << endl;
+        }
+
+        cout << endl;
         return 0;
     }
     catch (const invalid_argument& ex) {
