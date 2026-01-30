@@ -1,4 +1,4 @@
-public class People
+п»їpublic class People
 {
     protected string p_Name = "";
     protected int p_Age = 0;
@@ -9,11 +9,11 @@ public class People
     }
 
     public void sayHi() {
-        Console.WriteLine($"{this.p_Name} говорит привет");
+        Console.WriteLine($"{this.p_Name} РіРѕРІРѕСЂРёС‚ РїСЂРёРІРµС‚");
     }
     public void sayAge()
     {
-        Console.WriteLine($"{this.p_Name} {this.p_Age} лет");
+        Console.WriteLine($"{this.p_Name} {this.p_Age} Р»РµС‚");
     }
 }
 
@@ -28,7 +28,7 @@ public class Denis : People
 
     public void sayGroup()
     {
-        Console.WriteLine($"{this.p_Name} учится в группе {this.p_Group}");
+        Console.WriteLine($"{this.p_Name} СѓС‡РёС‚СЃСЏ РІ РіСЂСѓРїРїРµ {this.p_Group}");
     }
 }
 
@@ -36,7 +36,7 @@ public class Program
 {
     public static void Main()
     {
-        Denis denis = new Denis("Denis", 18, "ИП-391к");
+        Denis denis = new Denis("Denis", 18, "РРџ-391Рє");
 
         denis.sayHi();
         denis.sayAge();
