@@ -1,10 +1,10 @@
-class People: 
+п»їclass People: 
 	def __init__(self, name, age):
 		self.name = name
 		self.age = age
 
 	def sayHi(self):
-		print(f"{self.name} говорит привет")
+		print(f"{self.name} РіРѕРІРѕСЂРёС‚ РїСЂРёРІРµС‚")
 
 	def sayAge(self):
 		print(f"{self.name, self.age}")
@@ -16,10 +16,10 @@ class Denis(People):
 			self.group = group
 				
 		def sayGroup(self):
-			print(f"{self.name} учится в группе {self.group}")
+			print(f"{self.name} СѓС‡РёС‚СЃСЏ РІ РіСЂСѓРїРїРµ {self.group}")
 
 
-denis = Denis('Denis', 18, 'ИП-391к')
+denis = Denis('Denis', 18, 'РРџ-391Рє')
 
 denis.sayHi()
 denis.sayAge()
